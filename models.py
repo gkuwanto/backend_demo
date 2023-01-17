@@ -9,14 +9,27 @@ class Job(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=False, index=False)
+    experiment_name = Column(String, unique=True, index=True, default="exp_1")
     left_language_id = Column(String, unique=False)
     right_language_id = Column(String, unique=False)
-    monolingual_left_uploadpath = Column(String, unique=False)
-    monolingual_right_uploadpath = Column(String, unique=False)
-    parallel_uploadpath = Column(String, unique=False)
-    word_dictionary_uploadpath = Column(String, unique=False)
-    validation_uploadpath = Column(String, unique=False)
-    test_uploadpath = Column(String, unique=False)
+    monolingual_left_uploadpath = Column(String, unique=False, default="UNUSED")
+    monolingual_right_uploadpath = Column(String, unique=False, default="UNUSED")
+    parallel_uploadpath = Column(String, unique=False, default="UNUSED")
+    word_dictionary_uploadpath = Column(String, unique=False, default="UNUSED")
+    validation_uploadpath = Column(String, unique=False, default="UNUSED")
+    test_uploadpath = Column(String, unique=False, default="UNUSED")
     
     status = Column(Integer, default=0)
+    # Status Code Meaning
+    # 0: Not Started
+    # 1: Downloading Data
+    # 2: Finish Downloading Data
+    # -2: Failed Downloading Data
+    # 3: Preprocessing Data
+    # 4: Finish Preprocessing Data
+    # -4: Failed Preprocessing Data
+    # 5: Training Model
+    # 6: Finish Training Model
+    # -6: Failed To Use model
+    # 7: Ready to use model
 

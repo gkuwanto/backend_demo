@@ -26,7 +26,7 @@ def hello_world():
     return {"Hello": "World"}
 
 @app.post("/jobs/", response_model=schemas.Job)
-def create_user(job: schemas.JobCreate, db: Session = Depends(get_db)):
+def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
     if job.left_language_id not in SUPPORTED_LANG:
         raise HTTPException(status_code=400, detail=f"Unknown language code {job.left_language_id}")
     if job.right_language_id not in SUPPORTED_LANG:
@@ -71,46 +71,49 @@ def create_user(job: schemas.JobCreate, db: Session = Depends(get_db)):
 
 @app.get("/jobs/", response_model=List[schemas.Job])
 def read_jobs(db: Session = Depends(get_db)):
-    jobs = crud.get_job_by_status(db, status=False)
+    jobs = crud.get_job_by_status(db, status=0)
     return jobs
 
 @app.get("/jobs/history", response_model=List[schemas.Job])
-def read_jobs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_jobs_history(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     jobs = crud.get_jobs(db, skip=skip, limit=limit)
     return jobs
 
 
-@app.get("/jobs/{job_id}", response_model=schemas.Job)
-def read_job(job_id: int, db: Session = Depends(get_db)):
+@app.get("/jobs/{job_id}", response_model=schemas.JobSpecific)
+def read_job_detail(job_id: int, db: Session = Depends(get_db)):
     db_job = crud.get_job(db, job_id=job_id)
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
 
-@app.get("/jobs/{job_id}/download", response_model=schemas.Job)
-def read_job(job_id: int, db: Session = Depends(get_db)):
+@app.get("/jobs/{job_id}/download")
+def read_job_download(job_id: int, db: Session = Depends(get_db)):
     db_job = crud.get_job_download_script(db, job_id=job_id)
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
 
-@app.get("/jobs/{job_id}/preprocess", response_model=schemas.Job)
-def read_job(job_id: int, db: Session = Depends(get_db)):
+@app.get("/jobs/{job_id}/preprocess")
+def read_job_preprocess(job_id: int, db: Session = Depends(get_db)):
     db_job = crud.get_job_preprocess_script(db, job_id=job_id)
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
 
-@app.get("/jobs/{job_id}/train", response_model=schemas.Job)
-def read_job(job_id: int, db: Session = Depends(get_db)):
+@app.get("/jobs/{job_id}/train")
+def read_job_train(job_id: int, db: Session = Depends(get_db)):
     db_job = crud.get_job_preprocess_script(db, job_id=job_id)
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
 
 @app.post("/jobs/{job_id}/update", response_model=schemas.Job)
-def read_job(job_id: int, db: Session = Depends(get_db), status: int = 0):
+def update_job(job_id: int, db: Session = Depends(get_db), status: int = 0):
     db_job = crud.update_job(db, job_id=job_id, status=status)
+    # Send Email To Update
+    # TODO
+    # TODO Block
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job

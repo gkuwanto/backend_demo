@@ -1,6 +1,9 @@
 from sqlalchemy.orm import Session
 
-import models, schemas
+import models, schemas, script_generator
+import random, string
+from datetime import datetime
+
 
 
 def get_job(db: Session, job_id: int):
@@ -24,10 +27,15 @@ def get_jobs(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Job).offset(skip).limit(limit).all()
 
 def create_job(db: Session, job: schemas.JobCreate):
+    random_name = ''.join(random.choices(string.ascii_letters, k=6))
+    left_id = job.left_language_id
+    right_id = job.right_language_id
+    left_id, right_id = sorted((left_id, right_id))
     db_job = models.Job(
         email = job.email,
-        left_language_id = job.left_language_id,
-        right_language_id = job.right_language_id,
+        experiment_name = f"{left_id}-{right_id}-{random_name}-{datetime.now().strftime('%D')}",
+        left_language_id = left_id,
+        right_language_id = right_id,
         monolingual_left_uploadpath = job.monolingual_left_uploadpath,
         monolingual_right_uploadpath = job.monolingual_right_uploadpath,
         parallel_uploadpath = job.parallel_uploadpath,
@@ -47,3 +55,6 @@ def update_job(db: Session, job_id: int, status: int):
         db.commit()
         db.refresh(db_job)
     return db_job
+
+def get_job_download_script(db: Session, job_id: int):
+    return script_generator.generate_download_script(get_job(db, job_id))

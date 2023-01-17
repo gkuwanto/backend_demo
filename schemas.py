@@ -20,6 +20,7 @@ class JobCreate(JobBase):
 class Job(JobBase):
     id: int
     status: int
+    experiment_name: str
     class Config:
         orm_mode = True
     
@@ -27,7 +28,7 @@ class JobSpecific(JobBase):
     # en-so-{random number}-{date}
     id: int
     status: int
-    has_failed: bool
+    experiment_name: str
     # Required
     left_language_id: str
     right_language_id: str
