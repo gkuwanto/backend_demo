@@ -1,2 +1,2 @@
 runtime: python38
-entrypoint: pip install -r requirements.txt && python -m uvicorn main:app
+entrypoint: pip install -r requirements.txt && python -m uvicorn main:app --port 80
