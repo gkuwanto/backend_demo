@@ -1,7 +1,14 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, URL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/sql_app.db"
+
+SQLALCHEMY_DATABASE_URL = URL.create(
+    "mysql",
+    username="user",
+    password="user1",  # plain (unescaped) text
+    host="35.245.65.158",
+    database="appdb",
+)
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
