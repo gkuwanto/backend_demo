@@ -15,6 +15,7 @@ from utils import verify_link
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+print("Server Running")
 
 origins = [
     "http://localhost",

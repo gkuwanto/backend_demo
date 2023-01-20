@@ -8,16 +8,16 @@ class Job(Base):
     __tablename__ = "job"
 
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=False, index=False)
-    experiment_name = Column(String, unique=True, index=True, default="exp_1")
-    left_language_id = Column(String, unique=False)
-    right_language_id = Column(String, unique=False)
-    monolingual_left_uploadpath = Column(String, unique=False, default="UNUSED")
-    monolingual_right_uploadpath = Column(String, unique=False, default="UNUSED")
-    parallel_uploadpath = Column(String, unique=False, default="UNUSED")
-    word_dictionary_uploadpath = Column(String, unique=False, default="UNUSED")
-    validation_uploadpath = Column(String, unique=False, default="UNUSED")
-    test_uploadpath = Column(String, unique=False, default="UNUSED")
+    email = Column(String(255), unique=False, index=False)
+    experiment_name = Column(String(255), unique=True, index=True, default="exp_1")
+    left_language_id = Column(String(255), unique=False)
+    right_language_id = Column(String(255), unique=False)
+    monolingual_left_uploadpath = Column(String(255), unique=False, default="UNUSED")
+    monolingual_right_uploadpath = Column(String(255), unique=False, default="UNUSED")
+    parallel_uploadpath = Column(String(255), unique=False, default="UNUSED")
+    word_dictionary_uploadpath = Column(String(255), unique=False, default="UNUSED")
+    validation_uploadpath = Column(String(255), unique=False, default="UNUSED")
+    test_uploadpath = Column(String(255), unique=False, default="UNUSED")
     
     status = Column(Integer, default=0)
     # Status Code Meaning
