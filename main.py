@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.responses import PlainTextResponse
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -107,7 +108,7 @@ def read_job_detail(job_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
 
-@app.get("/jobs/{job_id}/download")
+@app.get("/jobs/{job_id}/download", response_class=PlainTextResponse)
 def read_job_download(job_id: int, db: Session = Depends(get_db)):
     db_job = crud.get_job_download_script(db, job_id=job_id)
     if db_job is None:
