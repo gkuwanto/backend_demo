@@ -142,9 +142,16 @@ def read_job_preprocess(job_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
 
-@app.get("/jobs/{job_id}/train", response_class=PlainTextResponse)
+@app.get("/jobs/{job_id}/train_lm", response_class=PlainTextResponse)
 def read_job_train(job_id: int, db: Session = Depends(get_db)):
     db_job = crud.get_job_train_script(db, job_id=job_id)
+    if db_job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return db_job
+    
+@app.get("/jobs/{job_id}/train_mt", response_class=PlainTextResponse)
+def read_job_train(job_id: int, db: Session = Depends(get_db)):
+    db_job = crud.get_job_train_mt_script(db, job_id=job_id)
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job

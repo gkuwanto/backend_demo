@@ -28,8 +28,10 @@ class Job(Base):
     # 3: Preprocessing Data
     # 4: Finish Preprocessing Data
     # -4: Failed Preprocessing Data
-    # 5: Training Model
-    # 6: Finish Training Model
+    # 5: Training Language Model
+    # 6: Finish Training Language Model
     # -6: Failed To Use model
-    # 7: Ready to use model
+    # 7: Training MT Model
+    # 8: Finish Training MT
+    # 9: Ready to Use
 
