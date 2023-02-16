@@ -58,3 +58,9 @@ def update_job(db: Session, job_id: int, status: int):
 
 def get_job_download_script(db: Session, job_id: int):
     return script_generator.generate_download_script(get_job(db, job_id))
+
+def get_job_preprocess_script(db: Session, job_id: int):
+    return script_generator.generate_preprocess_script(get_job(db, job_id))
+
+def get_job_train_script(db: Session, job_id: int):
+    return script_generator.generate_train_script(get_job(db, job_id))

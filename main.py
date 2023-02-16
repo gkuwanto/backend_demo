@@ -95,6 +95,26 @@ def read_jobs(db: Session = Depends(get_db)):
     jobs = crud.get_job_by_status(db, status=0)
     return jobs
 
+@app.get("/to_preprocess/", response_model=List[schemas.Job])
+def read_jobs(db: Session = Depends(get_db)):
+    jobs = crud.get_job_by_status(db, status=2)
+    return jobs
+
+@app.get("/to_train/", response_model=List[schemas.Job])
+def read_jobs(db: Session = Depends(get_db)):
+    jobs = crud.get_job_by_status(db, status=4)
+    return jobs
+
+@app.get("/to_finalize/", response_model=List[schemas.Job])
+def read_jobs(db: Session = Depends(get_db)):
+    jobs = crud.get_job_by_status(db, status=6)
+    return jobs
+
+@app.get("/models/", response_model=List[schemas.Job])
+def read_jobs(db: Session = Depends(get_db)):
+    jobs = crud.get_job_by_status(db, status=7)
+    return jobs
+
 @app.get("/jobs/history", response_model=List[schemas.Job])
 def read_jobs_history(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     jobs = crud.get_jobs(db, skip=skip, limit=limit)
@@ -124,7 +144,7 @@ def read_job_preprocess(job_id: int, db: Session = Depends(get_db)):
 
 @app.get("/jobs/{job_id}/train")
 def read_job_train(job_id: int, db: Session = Depends(get_db)):
-    db_job = crud.get_job_preprocess_script(db, job_id=job_id)
+    db_job = crud.get_job_train_script(db, job_id=job_id)
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
