@@ -34,7 +34,7 @@ def generate_train_script(job):
 #$ -q ivcbuyin
 #$ -m ea
 #$ -N {job.experiment_name}
-#$ -l h_rt=60:00:00
+#$ -l h_rt=48:00:00
 
 module load gcc/5.5.0
 module load python3/3.7.7
@@ -64,6 +64,8 @@ python train.py \
 --bptt 256 \
 --optimizer 'adam,lr=0.0001' \
 --epoch_size 200000 
+
+curl -X POST http://able-groove-373701.ue.r.appspot.com/jobs/{job.id}/update?status=6 -H "Content-Type: application/x-www-form-urlencoded" -d"status=6"
 """
 
     return script_to_run
