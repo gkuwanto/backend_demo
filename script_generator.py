@@ -98,7 +98,7 @@ RELOAD_MODEL="$(find "/projectnb/llamagrp/gkuwanto/consumer/wiki_pipeline/XLM-lo
 python train.py \
 --exp_name {job.experiment_name}mt \
 --dump_path ./models/ \
---reload_path "$RELOAD_MODEL,$RELOAD_MODEL" \
+--reload_model "$RELOAD_MODEL,$RELOAD_MODEL" \
 --data_path './data/{job.experiment_name}/{job.left_language_id}-{job.right_language_id}/processed/{job.left_language_id}-{job.right_language_id}' \
 --lgs '{job.left_language_id}-{job.right_language_id}-cos' \
 --mt_steps '{job.left_language_id}-{job.right_language_id},{job.right_language_id}-{job.left_language_id}' \
