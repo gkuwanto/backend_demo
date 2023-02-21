@@ -67,3 +67,7 @@ def get_job_train_script(db: Session, job_id: int):
 
 def get_job_train_mt_script(db: Session, job_id: int):
     return script_generator.generate_train_mt_script(get_job(db, job_id))
+
+
+def get_job_train_mt_sup_script(db: Session, job_id: int):
+    return script_generator.generate_train_mt_sup_script(get_job(db, job_id))
