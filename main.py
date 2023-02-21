@@ -156,6 +156,13 @@ def read_job_train(job_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Job not found")
     return db_job
 
+@app.get("/jobs/{job_id}/train_mt_sup", response_class=PlainTextResponse)
+def read_job_train(job_id: int, db: Session = Depends(get_db)):
+    db_job = crud.get_job_train_mt_sup_script(db, job_id=job_id)
+    if db_job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return db_job
+
 @app.post("/jobs/{job_id}/update", response_model=schemas.Job)
 def update_job(job_id: int, db: Session = Depends(get_db), status: int = 0):
     db_job = crud.update_job(db, job_id=job_id, status=status)
