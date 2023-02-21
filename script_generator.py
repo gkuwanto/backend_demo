@@ -18,11 +18,13 @@ bash end_to_end.sh {job.left_language_id} {job.right_language_id} {job.id}
 
 def generate_preprocess_script(job):
     script_to_run = f"""#!/bin/bash -l
+#$ -l mem_per_core=8G
+#$ -pe omp 8
 curl -X POST http://able-groove-373701.ue.r.appspot.com/jobs/{job.id}/update?status=3 -H "Content-Type: application/x-www-form-urlencoded" -d"status=3"
 bash mine_sentence.sh {job.left_language_id} {job.right_language_id} {job.experiment_name}
 bash compile.sh {job.left_language_id} {job.right_language_id} {job.experiment_name} {job.id}
 cd XLM-lowreso
-qsub get-data-para-new.sh --src {job.left_language_id} --tgt {job.right_language_id} --exp_name {job.experiment_name} --job_id {job.id}
+bash get-data-para-new.sh --src {job.left_language_id} --tgt {job.right_language_id} --exp_name {job.experiment_name} --job_id {job.id}
 """
     return script_to_run
 
