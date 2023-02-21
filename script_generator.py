@@ -98,7 +98,7 @@ export LANG="en_US.UTF-8"
 curl -X POST http://able-groove-373701.ue.r.appspot.com/jobs/{job.id}/update?status=5 -H "Content-Type: application/x-www-form-urlencoded" -d"status=5"
 RELOAD_MODEL="$(find "/projectnb/llamagrp/gkuwanto/consumer/wiki_pipeline/XLM-lowreso/models/{job.experiment_name}lm" -name best-valid_mlm_ppl.pth | head -n1)"
 python train.py \
---exp_name {job.experiment_name}mt \
+--exp_name {job.experiment_name}ae \
 --dump_path ./models/ \
 --reload_model "$RELOAD_MODEL,$RELOAD_MODEL" \
 --data_path './data/{job.experiment_name}/{job.left_language_id}-{job.right_language_id}/processed/{job.left_language_id}-{job.right_language_id}' \
@@ -149,7 +149,7 @@ module load pytorch/1.8.1
 export LANG="en_US.UTF-8"
 
 curl -X POST http://able-groove-373701.ue.r.appspot.com/jobs/{job.id}/update?status=5 -H "Content-Type: application/x-www-form-urlencoded" -d"status=5"
-RELOAD_MODEL="$(find "/projectnb/llamagrp/gkuwanto/consumer/wiki_pipeline/XLM-lowreso/models/{job.experiment_name}lm" -name best-valid_mlm_ppl.pth | head -n1)"
+RELOAD_MODEL="$(find "/projectnb/llamagrp/gkuwanto/consumer/wiki_pipeline/XLM-lowreso/models/{job.experiment_name}ae" -name best-valid_{job.left_language_id}-{job.right_language_id}_mt_bleu.pth | head -n1)"
 python train.py \
 --exp_name {job.experiment_name}mt \
 --dump_path ./models/ \
