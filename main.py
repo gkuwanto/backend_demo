@@ -86,7 +86,7 @@ def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
 
 
 @app.post("/predict/", response_model=schemas.Predict)
-def create_job(job: schemas.Predict, db: Session = Depends(get_db)):
+def create_predict(job: schemas.Predict, db: Session = Depends(get_db)):
     
     test_id = verify_link(job.test_uploadpath)
     if not test_id:
@@ -95,9 +95,9 @@ def create_job(job: schemas.Predict, db: Session = Depends(get_db)):
         email= job.email,
         direction = job.direction,
         experiment_name = job.experiment_name,
-        test_uploadpath = test_id
+        test_set = test_id
     )
-    return crud.create_predict(db=db, job=new_job)
+    return crud.create_predict(db=db, pred=new_job)
 
 
 @app.get("/jobs/", response_model=List[schemas.Job])

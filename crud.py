@@ -77,7 +77,7 @@ def create_predict(db: Session, pred: schemas.Predict):
         email = pred.email,
         experiment_name = pred.experiment_name,
         direction = 0 if pred.direction == 'left' else 1,
-        test_uploadpath = pred.test_uploadpath
+        test_uploadpath = pred.test_set
     )
     
     db.add(db_job)

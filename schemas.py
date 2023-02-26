@@ -46,4 +46,4 @@ class Predict(BaseModel):
     email: str
     experiment_name: str
     direction: str
-    test_uploadpath: str
+    test_set: str
