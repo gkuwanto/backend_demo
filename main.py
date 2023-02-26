@@ -88,9 +88,9 @@ def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
 @app.post("/predict/", response_model=schemas.Predict)
 def create_predict(job: schemas.Predict, db: Session = Depends(get_db)):
     
-    test_id = verify_link(job.test_uploadpath)
+    test_id = verify_link(job.test_set)
     if not test_id:
-        raise HTTPException(status_code=400, detail = "Invalid test_uploadpath")
+        raise HTTPException(status_code=400, detail = "Invalid test_set")
     new_job = schemas.Predict(
         email= job.email,
         direction = job.direction,
