@@ -85,43 +85,19 @@ def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
     return crud.create_job(db=db, job=new_job)
 
 
-@app.post("/predict/", response_model=schemas.Job)
-def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
-    monolingual_left_id = verify_link(job.monolingual_left_uploadpath)
-    if not monolingual_left_id:
-        raise HTTPException(status_code=400, detail = "Invalid monolingual_left_uploadpath")
-    
-    monolingual_right_id = verify_link(job.monolingual_right_uploadpath)
-    if not monolingual_right_id:
-        raise HTTPException(status_code=400, detail = "Invalid monolingual_right_uploadpath")
-    
-    parallel_id = verify_link(job.parallel_uploadpath)
-    if not parallel_id:
-        raise HTTPException(status_code=400, detail = "Invalid parallel_uploadpath")
-    
-    word_dictionary_id = verify_link(job.word_dictionary_uploadpath)
-    if not word_dictionary_id:
-        raise HTTPException(status_code=400, detail = "Invalid word_dictionary_uploadpath")
-    
-    validation_id = verify_link(job.validation_uploadpath)
-    if not validation_id:
-        raise HTTPException(status_code=400, detail = "Invalid validation_uploadpath")
+@app.post("/predict/", response_model=schemas.Predict)
+def create_job(job: schemas.Predict, db: Session = Depends(get_db)):
     
     test_id = verify_link(job.test_uploadpath)
     if not test_id:
         raise HTTPException(status_code=400, detail = "Invalid test_uploadpath")
-    new_job = schemas.JobCreate(
+    new_job = schemas.Predict(
         email= job.email,
-        left_language_id= job.left_language_id,
-        right_language_id = job.right_language_id,
-        monolingual_left_uploadpath = monolingual_left_id,
-        monolingual_right_uploadpath = monolingual_right_id,
-        parallel_uploadpath = parallel_id,
-        word_dictionary_uploadpath = word_dictionary_id,
-        validation_uploadpath = validation_id,
+        direction = job.direction,
+        experiment_name = job.experiment_name,
         test_uploadpath = test_id
     )
-    return crud.create_job(db=db, job=new_job)
+    return crud.create_predict(db=db, job=new_job)
 
 
 @app.get("/jobs/", response_model=List[schemas.Job])
