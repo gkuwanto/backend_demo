@@ -83,4 +83,4 @@ def create_predict(db: Session, pred: schemas.Predict):
     db.add(db_job)
     db.commit()
     db.refresh(db_job)
-    return db_job
+    return pred
