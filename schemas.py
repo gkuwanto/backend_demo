@@ -41,3 +41,9 @@ class JobSpecific(JobBase):
     parallel_uploadpath: str
     class Config:
         orm_mode = True
+
+class Predict(BaseModel):
+    email: str
+    experiment_name: str
+    direction: int
+    test_uploadpath: str

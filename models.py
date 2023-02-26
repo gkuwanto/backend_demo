@@ -35,3 +35,12 @@ class Job(Base):
     # 8: Finish Training MT
     # 9: Ready to Use
 
+
+class Predict(Base):
+    __tablename__ = "predict"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=False, index=False)
+    experiment_name = Column(String(255), unique=True, index=True, default="exp_1")
+    direction = Column(Integer, unique=False, default=0)
+    test_uploadpath = Column(String(255), unique=False, default="UNUSED")
